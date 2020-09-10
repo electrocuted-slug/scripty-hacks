@@ -27,7 +27,10 @@ fi
 cd $folder
 
 win_7_suffix="-PC"
-win_10_prefix="PC-"
+win_10_prefixes=("PC-" "DESKTOP-" "LAPTOP-")
+size=${#win_10_prefixes[@]}
+index=$(($RANDOM % $size))
+win_10_prefix=${win_10_prefixes[$index]}
 win_10_suffix=$(cat /dev/urandom | tr -dc 'A-Z0-9' | fold -w 6 | head -n 1)
 apple_name_suffix="'s"
 
